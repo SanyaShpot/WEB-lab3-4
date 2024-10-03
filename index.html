@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artificial Christmas Trees Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="controls">
+        <h2>Navigation Menu</h2>
+        <input type="text" id="search" placeholder="Search by material...">
+        <button class="two-way" onclick="searchTrees()">Search</button>
+        <button class="two-way" onclick="sortTrees()">Sort by Price</button>
+        <button class="two-way" onclick="countTotalPrice()">Total Price</button>
+        <span class="total" id="total-price"></span>
+        <button id="add-tree-btn" onclick="showAddTreeForm()">Add New Tree</button>
+    </div>
+    
+    <div class="controls add-tree-form" id="add-tree-form" style="display: none;">
+        <h2>Add New Tree</h2>
+        <input type="text" id="tree-name" placeholder="Назва ялинки" required>
+        <input type="text" id="manufacturer" placeholder="Виробник" required>
+        <input type="number" id="height" placeholder="Висота (см)" required>
+        <input type="number" id="price" placeholder="Ціна (₴)" required>
+        <input type="text" id="material" placeholder="Матеріал" required>
+        <input type="url" id="image-url" placeholder="URL зображення" required>
+        <button onclick="addTree()">Save</button>
+        <button onclick="hideAddTreeForm()">Back</button>
+    </div>
+
+    <h1>Artificial Christmas Trees Online</h1>
+
+    <div id="tree-container" class="tree-container"></div>
+
+    <script src="js/script.js"></script>
+    
+</body>
+</html>
