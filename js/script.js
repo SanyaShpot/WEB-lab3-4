@@ -45,13 +45,11 @@ function updateFilteredTrees() {
 }
 
 
-
 function displayTrees(treeList) {
     const treeContainer = document.getElementById('tree-container');
     treeContainer.innerHTML = '';
-    treeList.forEach((tree) => {
+    treeList.forEach((tree, index) => {
         const originalIndex = trees.indexOf(tree);
-
         const treeBlock = `
             <div class="tree-block">
                 <img src="${tree.imageUrl}" alt="${tree.treeName}" class="tree-image">
@@ -70,6 +68,8 @@ function displayTrees(treeList) {
 
 
 
+
+
 function sortTrees() {
     isSorted = !isSorted;
     updateFilteredTrees();
@@ -85,44 +85,51 @@ function countTotalPrice() {
 }
 
 function showAddTreeForm() {
-    document.querySelector('.controls').style.display = 'none';
-    document.getElementById('add-tree-form').style.display = 'block';
+    clearForm();
+    document.getElementById('modal').style.display = 'block';
 }
 
 function hideAddTreeForm() {
-    document.querySelector('.controls').style.display = 'block';
-    document.getElementById('add-tree-form').style.display = 'none';
+    document.getElementById('modal').style.display = 'none';
 }
+
+function clearForm() {
+    document.getElementById('tree-name').value = '';
+    document.getElementById('manufacturer').value = '';
+    document.getElementById('height').value = '';
+    document.getElementById('price').value = '';
+    document.getElementById('material').value = '';
+    document.getElementById('image-url').value = '';
+    document.getElementById('save-tree-btn').removeAttribute('data-edit-index');
+}
+
+
 
 
 
 function addTree() {
-    const treeName = document.getElementById('tree-name').value;
-    const manufacturer = document.getElementById('manufacturer').value;
-    const height = document.getElementById('height').value;
-    const price = parseFloat(document.getElementById('price').value);
-    const material = document.getElementById('material').value;
-    const imageUrl = document.getElementById('image-url').value;
+    const treeName = document.getElementById('tree-name').value.trim();
+    const manufacturer = document.getElementById('manufacturer').value.trim();
+    const height = document.getElementById('height').value.trim();
+    const price = parseFloat(document.getElementById('price').value.trim());
+    const material = document.getElementById('material').value.trim();
+    const imageUrl = document.getElementById('image-url').value.trim();
 
     if (!treeName || !manufacturer || !height || isNaN(price) || !material || !imageUrl) {
-        alert('Enter all required fields!');
+        alert('Please fill in all fields correctly.');
         return;
     }
 
-    const newTree = new ArtificialTree(treeName, manufacturer, height, price, material, imageUrl);
-
-    const editIndex = document.getElementById('add-tree-btn').getAttribute('data-edit-index');
+    const editIndex = document.getElementById('save-tree-btn').getAttribute('data-edit-index');
+    
     if (editIndex !== null) {
-        trees[editIndex] = newTree;
-        currentFilteredTrees[editIndex] = newTree;
-        document.getElementById('add-tree-btn').removeAttribute('data-edit-index');
+        trees[editIndex] = new ArtificialTree(treeName, manufacturer, height, price, material, imageUrl);
     } else {
-        trees.push(newTree);
-        currentFilteredTrees.push(newTree);
+        trees.push(new ArtificialTree(treeName, manufacturer, height, price, material, imageUrl));
     }
 
-    updateFilteredTrees();
     hideAddTreeForm();
+    updateFilteredTrees();
 }
 
 
@@ -137,26 +144,24 @@ function editTree(index) {
     document.getElementById('material').value = tree.material;
     document.getElementById('image-url').value = tree.imageUrl;
 
-    showAddTreeForm();
+    const saveButton = document.getElementById('save-tree-btn');
+    saveButton.setAttribute('data-edit-index', index);
 
-    document.getElementById('add-tree-btn').setAttribute('data-edit-index', index);
+    document.getElementById('modal').style.display = 'block';
 }
+
 
 
 
 function deleteTree(index) {
-    trees.splice(index, 1);
+    if (confirm('Are you sure you want to delete this tree?')) {
+        trees.splice(index, 1);
+        updateFilteredTrees();
+    }
+}
+
+document.getElementById('search').addEventListener('input', updateFilteredTrees);
+
+window.onload = function() {
     updateFilteredTrees();
-}
-
-function toggleButtonActive(button) {
-    button.classList.toggle('active');
-}
-
-document.querySelectorAll('.controls button').forEach(button => {
-    button.addEventListener('click', function() {
-        toggleButtonActive(this);
-    });
-});
-
-updateFilteredTrees();
+};

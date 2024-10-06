@@ -19,20 +19,22 @@
         <button id="add-tree-btn" onclick="showAddTreeForm()">Add New Tree</button>
     </div>
     
-    <div class="controls add-tree-form" id="add-tree-form" style="display: none;">
-        <h2>Add New Tree</h2>
-        <input type="text" id="tree-name" placeholder="Назва ялинки" required>
-        <input type="text" id="manufacturer" placeholder="Виробник" required>
-        <input type="number" id="height" placeholder="Висота (см)" required>
-        <input type="number" id="price" placeholder="Ціна (₴)" required>
-        <input type="text" id="material" placeholder="Матеріал" required>
-        <input type="url" id="image-url" placeholder="URL зображення" required>
-        <button onclick="addTree()">Save</button>
-        <button onclick="hideAddTreeForm()">Back</button>
+    <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="hideAddTreeForm()">&times;</span>
+            <h2 id="modal-title">Add New Tree</h2>
+            <input type="text" id="tree-name" placeholder="Назва ялинки" required>
+            <input type="text" id="manufacturer" placeholder="Виробник" required>
+            <input type="number" id="height" placeholder="Висота (см)" required>
+            <input type="number" id="price" placeholder="Ціна (₴)" required>
+            <input type="text" id="material" placeholder="Матеріал" required>
+            <input type="url" id="image-url" placeholder="URL зображення" required>
+            <button id="save-tree-btn" onclick="addTree()">Save</button>
+            <button type="button" onclick="hideAddTreeForm()">Back</button>
+        </div>
     </div>
 
     <h1>Artificial Christmas Trees Online</h1>
-
     <div id="tree-container" class="tree-container"></div>
 
     <script src="js/script.js"></script>
